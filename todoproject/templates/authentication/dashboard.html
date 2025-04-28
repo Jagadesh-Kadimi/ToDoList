@@ -1,0 +1,126 @@
+{% extends "authentication/msp2.html"%}
+{% block title %}Dashboard{% endblock %}  
+{% block content %}
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+    .todo-container {
+        max-width: 800px;
+        margin: 50px auto;
+        max-width: 800px; /* Increased width */
+        margin: 50px auto; /* Increased margin for better spacing */
+        padding: 20px; /* Added padding for better spacing inside the container */
+        background-color: #ffffff; /* Optional: Add a background color */
+        border-radius: 10px; /* Optional: Add rounded corners */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
+    }
+    
+    .todo-header {
+        text-align: center;
+        color: #007bff;
+    }
+    .todo-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+    .todo-item input {
+        margin-right: 10px;
+    }
+    .todo-item .actions i {
+        margin-left: 10px;
+        cursor: pointer;
+    }
+    .todo-item .actions i:hover {
+        opacity: 0.7;
+    }
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+<div class="container todo-container fa-lg " style="max-width: 1000px;"> <!-- Increased container size -->
+    <h2 class="todo-header">
+        <i class="fas fa-check-square"></i> My Todo-s
+    </h2>
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+     <div class="input-group">
+        <span class="input-group-btn">
+    <form method="POST" action="{% url 'dashboard' %}" style="display: flex; width: 100%;">
+        {% csrf_token %}
+        <input type="search" name="search" id="search" class="form-control" placeholder="Find Your Todos..." style="width: 600px;margin-left: 30px;" />
+        <button type="submit" class="btn btn-primary" style="margin-left:0px; color:white"><i class="fas fa-search "></i></button>
+
+        <label id="current-time" class="form-control" style="max-width: 150px;"  >{% now "D d N Y " %}</label>
+        
+        <button class="btn btn-primary"><a href="{% url 'addtask'%}" style="text-decoration: none; color: white;">ADD</a></button>
+    </span>
+</form>
+
+</div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-xs-6">
+                    <label>Filter:</label>
+                    <select class="form-control">
+                        <option >All</option>
+                        <option>Completed</option>
+                        <option>Pending</option>
+                    </select>
+                </div>
+                <div class="col-xs-6">
+                    <label>Sort:</label>
+                    <select class="form-control">
+                    
+                        <option value="added_date" id="added_date" {% if sort_by == 'added_date' %}selected{% endif %}>Added date</option>
+                        <option value="due_date" id="due_date" {% if sort_by == 'due' %}selected{% endif %}>Due date</option>
+                        <option value="priority" id="priority" {% if sort_by == 'priority' %}selected{% endif %}>Priority</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        {% if todolist %}
+        {% for x in todolist   %}
+        <ul class="list-group">
+            <li class="list-group-item todo-item ">
+                <div style="height: 50px;width: 500px; overflow: hidden;">
+                   <input type="checkbox"> <span >{{x.task}}</span>
+                    {% if x.priority == 'High' %}
+                    &nbsp;<i class="fas fa-circle text-danger fa-xs"></i>
+                    {% elif x.priority == 'Medium' %}
+                    &nbsp;<i class="fas fa-circle text-warning fa-xs"></i>
+                    {% else %}
+                    &nbsp;<i class="fas fa-circle text-primary fa-xs"></i>
+                    {% endif %}
+     
+                </div>
+                <div class="description text-muted text-sm " style="font-family: sans-serif; font-size: 12px; width: 100px; overflow: hidden;">
+                    {{x.description}}
+                </div>
+                <div class="actions">
+                    <span class="label label-warning"><i class="fas fa-hourglass-half"></i> {{x.due}}</span>
+                    <a href="{%url 'update' x.id %}"><i class="fas fa-edit text-primary"></i></a>
+                    <a href="{% url 'delete' x.id %}" class="text-danger" onclick="return confirm('Are you sure you want to delete this task?');">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>                </div>
+            </li>
+
+           
+        </ul>
+        {%endfor%}
+        {% else %}
+        <p>NO task found</p>
+    {% endif %}
+    </div>
+</div>
+
+{% endblock %}

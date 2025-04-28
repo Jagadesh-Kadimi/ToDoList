@@ -1,0 +1,41 @@
+{% extends  "authentication/masterpage.html" %}
+{% block title %}Sign Up{% endblock %}  
+{% block content %}
+<div class="container">
+    <div class="col-md-5 offset-xl-4" style="margin-top: 5%; margin-left:30%; border: 1px solid #ccc; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); box-shadow: rgb(42, 69, 58);">
+        <h2 class="text-center">Sign Up</h2>
+        <p class="text-center">Please fill in this form to sign up.</p>
+        <hr>
+  
+    <form action="{% url 'signup' %}" method="POST">
+        {% csrf_token %}
+        <div class="form-group"></div>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required class="form-control" placeholder="Username"><br>
+
+        
+        <label for="first_name">First Name:</label>
+        <input type="text" id="first_name" name="first_name" required class="form-control" placeholder="First Name"><br>
+       
+        <label for="last_name">Last Name:</label>
+        <input type="text" id="last_name" name="last_name" required class="form-control" placeholder="Last Name"><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required class="form-control" placeholder="Email Address"><br>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required class="form-control" placeholder="Password"><br>
+
+        <label for="password1">Confirm Password:</label>
+        <input type="password" id="password1" name="password1" placeholder="Confirm password" required class="form-control" placeholder="Confirm Password"><br>
+        
+        <button type="submit" class="form-control btn-primary  ">Submit</button>
+        <br>
+        <div class=" text-center">
+        <a href="{% url 'signin'%}"><underline>Sign In</underline></a>
+    </div>
+
+    </form>
+</div>
+</div>
+{% endblock %}

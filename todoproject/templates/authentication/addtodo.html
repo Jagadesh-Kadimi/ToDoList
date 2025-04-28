@@ -1,0 +1,38 @@
+{%extends "authentication/msp2.html"%}
+{% block title%}ADDTODOLISt{%endblock%}
+{% block content %}
+<div class="container">
+    <div class="col-md-4 offset-xl-4" style="margin-top: 5%; margin-left:30%; border: 1px solid #ccc; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); box-shadow: rgb(42, 69, 58);">
+        <h2 class="text-center" style="text-decoration: underline; color: rgb(142, 142, 206);">Add Your ToDos</h2>
+        <form action="{% url 'addtask'%}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="todo">Task:</label>
+                <input type="text" id="todo" name="todo" required class="form-control" placeholder="Enter your task" maxlength="35" autofocus>
+            </div>
+            <div class="form-group">
+                <label for="duedate">Due Date:</label>
+                <input type="date" id="duedate" name="duedate" required class="form-control">
+            </div>
+            <div class="form-group">
+                <labed for ="description">Description:</label>
+                <textarea id="description" name="description" maxlength="10" required class="form-control" placeholder="Enter your task description" rows="4" cols="50" autofocus></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="priority">Priority:</label>
+                <select id="priority" name="priority" required class="form-control">
+                    <option value="Low">Low</option>
+                    <option value="Medium">Medium</option>
+                    <option value="High">High</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Task</button>
+            <button class="btn btn-primary"><a href="{%url 'dashboard'%}" style="text-decoration: none; color: white;">Back To DashBoard</a></button>
+
+        </form>
+    </div>
+</div>
+</div>
+</div>
+{% endblock %}
